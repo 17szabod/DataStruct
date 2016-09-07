@@ -17,7 +17,6 @@ public class Payment {
 
 	/**
 	 * constructor; initialize to amount parameter.
-	 * @precondition 
 	 * @param amount New amount for the payment
 	 */
 	public Payment(double amount) {

@@ -1,17 +1,16 @@
 package payment;
-
 /**
-* Main test class
+* Additional test case
 */
 public class TestPayment2
 {
      public static void main(String[] args)
      {	
        // Create several test classes and invoke the paymentDetails method
-       CashPayment cash1 = new CashPayment(100), cash2 = new CashPayment(100);
-       CreditCardPayment credit1 = new CreditCardPayment(100, "Fred",
+       CashPayment cash1 = new CashPayment(-100), cash2 = new CashPayment(-100);
+       CreditCardPayment credit1 = new CreditCardPayment(-100, "Bob",
 "10/5/2010", "123456789");
-       CreditCardPayment credit2 = new CreditCardPayment(100, "Barney",
+       CreditCardPayment credit2 = new CreditCardPayment(-100, "Jimbo",
 "11/15/2009", "987654321");
  
        System.out.println("Cash 1 details:");
@@ -38,4 +37,4 @@ public class TestPayment2
           System.out.println("credit2 and credit1 are equal"); 
      }
  
-} // end of TestPayment1
+} // end of TestPayment2
