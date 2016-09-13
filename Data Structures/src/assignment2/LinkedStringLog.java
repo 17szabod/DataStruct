@@ -5,7 +5,7 @@
 // of LLStringNode to hold the log strings.
 //----------------------------------------------------------------------
 
-package Assignment2;
+package assignment2;
 
 public class LinkedStringLog implements StringLogInterface 
 {
@@ -83,6 +83,9 @@ public class LinkedStringLog implements StringLogInterface
   }
   
   public void insertLast(String element) {
+	  if (log == null) {
+		  insert(element);
+	  }
 	  LLStringNode node = new LLStringNode(element);
 	  LLStringNode temp = log;
 	  while(temp.getLink() != null) {
@@ -91,12 +94,43 @@ public class LinkedStringLog implements StringLogInterface
 	  temp.setLink(node);
   }
   
+  public boolean remove(String element) {
+	  // Removes first node with info element from the list
+	  // Returns true if element is found and false if not
+	  	LLStringNode node;
+	    node = log;
+
+	    while (node.getLink() != null) 
+	    {
+	      if (element.equalsIgnoreCase(node.getLink().getInfo())) {  // if they match
+	        node.setLink(node.getLink().getLink());
+	        return true;
+	      }
+	      else
+	        node = node.getLink();
+	    }
+	    return false;
+  }
+	    
+  public LinkedStringLog copy() {
+	  // returns a deep copy of the list
+	  LinkedStringLog fresh = new LinkedStringLog(getName());
+	  LLStringNode node = log;
+	  while (node != null) {
+		  fresh.insert(node.getInfo());
+		  node = node.getLink();
+	  }
+	  return fresh;
+  }
+  
   public boolean equals(Object other) {
+	  // checks if other has the same amount of elements with the same info
 	  LinkedStringLog oth = (LinkedStringLog) other;
+	  LinkedStringLog othCopy = oth.copy();
 	  LLStringNode temp = log;
 	  if (oth.size() != this.size()) return false;
 	  while(temp.getLink() != null) {
-		  if(oth.contains(temp.getInfo())) {
+		  if(othCopy.remove(temp.getInfo())) {
 			  temp = temp.getLink();
 			  continue;
 		  }

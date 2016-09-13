@@ -1,4 +1,4 @@
-package Assignment2;
+package assignment2;
 /*
  * Copyright 2014, Michael T. Goodrich, Roberto Tamassia, Michael H. Goldwasser
  *

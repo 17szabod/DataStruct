@@ -7,7 +7,7 @@
 // A log must have a "name".
 //----------------------------------------------------------------------
 
-package Assignment2;
+package assignment2;
 
 public interface StringLogInterface
 {

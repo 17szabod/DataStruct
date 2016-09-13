@@ -4,7 +4,7 @@
 // Implements StringLogInterface using an array to hold the strings.
 //----------------------------------------------------------------------
 
-package Assignment2;
+package assignment2;
 
 public class ArrayStringLog implements StringLogInterface 
 {
