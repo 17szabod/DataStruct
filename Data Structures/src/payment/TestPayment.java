@@ -7,11 +7,11 @@ public class TestPayment
      public static void main(String[] args)
      {
        // Create several test classes and invoke the paymentDetails method
-       CashPayment cash1 = new CashPayment(100), cash2 = new CashPayment(100);
-       CreditCardPayment credit1 = new CreditCardPayment(100, "Fred",
-"10/5/2010", "123456789");
-       CreditCardPayment credit2 = new CreditCardPayment(100, "Barney",
-"11/15/2009", "987654321");
+       CashPayment cash1 = new CashPayment(42), cash2 = new CashPayment(2150);
+       CreditCardPayment credit1 = new CreditCardPayment(100, "Bob",
+"11/10/2016", "653498632");
+       CreditCardPayment credit2 = new CreditCardPayment(100, "Another Builder",
+"12/05/2016", "978523425");
  
        System.out.println("Cash 1 details:");
        cash1.paymentDetails();
@@ -34,8 +34,7 @@ public class TestPayment
           System.out.println("cash2 and credit1 are equal");
  
        if (credit1.equals(credit2))
-          System.out.println("credit2 and credit1 are equal");
- 
+          System.out.println("credit2 and credit1 are equal"); 
      }
  
-} // end of TestPayment
+} // end of TestPayment1

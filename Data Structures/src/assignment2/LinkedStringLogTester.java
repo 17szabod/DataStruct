@@ -20,8 +20,7 @@ public class LinkedStringLogTester {
 		
 		System.out.println(log1.toString());
 		System.out.println(log2.toString());
-		/*System.out.println(log1.copy().toString());
-		System.out.println(log1.equals(log2));*/
+		System.out.println(log1.equals(log2));
 	}
 
 }

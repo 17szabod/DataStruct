@@ -83,8 +83,10 @@ public class LinkedStringLog implements StringLogInterface
   }
   
   public void insertLast(String element) {
+	  // Inserts element to the end of the list
 	  if (log == null) {
 		  insert(element);
+		  return;
 	  }
 	  LLStringNode node = new LLStringNode(element);
 	  LLStringNode temp = log;

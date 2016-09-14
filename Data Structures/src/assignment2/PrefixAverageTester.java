@@ -7,19 +7,19 @@ public class PrefixAverageTester {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int n = 750000;
+		int n = 100000;
 		double[] arr = new double[n];
 		for (int x = 0; x < n; x++) {
 			arr[x] = 20.0;
 		}
-		long start = System.currentTimeMillis();
+		long start = System.nanoTime();
 		PrefixAverage.prefixAverage1(arr);
-		long end = System.currentTimeMillis();
+		long end = System.nanoTime();
 		System.out.println(end - start);
 		
-		start = System.currentTimeMillis();
+		start = System.nanoTime();
 		PrefixAverage.prefixAverage2(arr);
-		end = System.currentTimeMillis();
+		end = System.nanoTime();
 		System.out.println(end - start);
 	}
 
