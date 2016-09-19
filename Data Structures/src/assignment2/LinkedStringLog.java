@@ -7,7 +7,7 @@
 
 package assignment2;
 
-public class LinkedStringLog implements StringLogInterface 
+public class LinkedStringLog implements StringLogInterface
 {
   protected LLStringNode log; // reference to first node of linked 
                               // list that holds the StringLog strings
@@ -99,6 +99,11 @@ public class LinkedStringLog implements StringLogInterface
   public boolean remove(String element) {
 	  // Removes first node with info element from the list
 	  // Returns true if element is found and false if not
+	  	if (log == null) { 
+	  		System.out.println(name + " is empty, proceeding to remove YOUR SOUL /n ..... ");
+	  		System.out.println("Soul removal successfull");
+	  		return false;
+	  	}
 	  	LLStringNode node;
 	    node = log;
 
@@ -106,6 +111,7 @@ public class LinkedStringLog implements StringLogInterface
 	    {
 	      if (element.equalsIgnoreCase(node.getLink().getInfo())) {  // if they match
 	        node.setLink(node.getLink().getLink());
+	        System.gc();
 	        return true;
 	      }
 	      else
