@@ -20,7 +20,18 @@ public class LinkedStringLog implements StringLogInterface
     log = null;
     this.name = name;
   }
-
+ /*
+  * 
+  * 
+  * 
+  * 
+  * this is a long comment for testing
+  * 
+  * 
+  * 
+  * (non-Javadoc)
+  * @see assignment2.StringLogInterface#insert(java.lang.String)
+  */
   public void insert(String element)
   // Precondition:   This StringLog is not full.
   //
