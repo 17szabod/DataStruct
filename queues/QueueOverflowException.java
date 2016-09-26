@@ -1,4 +1,4 @@
-package ch05.queues;
+package queues;
 
 public class QueueOverflowException extends RuntimeException
 {

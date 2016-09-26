@@ -5,7 +5,7 @@
 // A queue is a "first in, first out" structure.
 //----------------------------------------------------------------------------
 
-package ch05.queues;
+package queues;
 
 public interface QueueInterface<T>
 

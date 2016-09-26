@@ -11,7 +11,7 @@
 // new array is created, with capacity incremented by the original capacity.
 //---------------------------------------------------------------------------
 
-package ch05.queues;
+package queues;
 
 public class ArrayUnbndQueue<T> implements UnboundedQueueInterface<T> 
 {

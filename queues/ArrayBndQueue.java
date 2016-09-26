@@ -7,7 +7,7 @@
 // capacity and one that allows the calling program to specify the capacity.
 //---------------------------------------------------------------------------
 
-package ch05.queues;
+package queues;
 
 public class ArrayBndQueue<T> implements BoundedQueueInterface<T>
 {

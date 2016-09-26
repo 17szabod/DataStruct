@@ -4,7 +4,7 @@
 // Implements UnboundedQueueInterface using a linked list
 //---------------------------------------------------------------------------
 
-package ch05.queues;
+package queues;
 
 import support.LLNode;
 

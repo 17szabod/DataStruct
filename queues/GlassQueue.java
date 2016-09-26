@@ -5,7 +5,7 @@
 // and to access the front and rear queue elements without removing them.
 //---------------------------------------------------------------------------
 
-package ch05.queues;
+package queues;
 
 public class GlassQueue<T> extends ArrayUnbndQueue<T>
 {

@@ -5,7 +5,7 @@
 // on the size of the queue. A queue is a "first in, first out" structure.
 //----------------------------------------------------------------------------
 
-package ch05.queues;
+package queues;
 
 public interface UnboundedQueueInterface<T> extends QueueInterface<T>
 
