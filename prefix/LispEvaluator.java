@@ -1,30 +1,29 @@
 package prefix;
  
 
- 
 import java.util.Scanner;
  
-import stacks.ArrayStack;
- 
-import stacks.BoundedStackInterface;
+import stacks.*;
  
 
  
 public class LispEvaluator {
- 
+  /**
+   * evaluates an expression in lisp 
+   * @param expression - the expression to be evaluated
+   * @return the lisp evaluation of expression
+   */
   public static double evaluate(String expression) {
- 
+// Make sure the expression is in a format that can be easily evaluates
     String myExpression = expression.replaceAll("\\(", "( ");
  
     myExpression = myExpression.replaceAll("\\)", " )");
  
-    //System.out.println(myExpression);
- 
     Scanner in = new Scanner(myExpression);
- 
-    BoundedStackInterface<Double> nums = new ArrayStack<Double>(50);
- 
-    BoundedStackInterface<String> stack = new ArrayStack<String>(100);
+// A stack for the number values
+    UnboundedStackInterface<Double> nums = new LinkedStack<Double>();
+// A stack that holds everything in the expression except the ")"
+    UnboundedStackInterface<String> stack = new LinkedStack<String>();
  
     Double result = 0.0;
  
@@ -34,17 +33,19 @@ public class LispEvaluator {
  
       String token = in.next();
  
-      //System.out.println("\n" + token);
- 
-      if (token.equals(")")) {
+      if (token.equals(")")) { // if token is ")" evaluate until the next element in "stack" that isn't a number
  
         while (!stack.top().equals("+") && !stack.top().equals("-") && !stack.top().equals("*") && !stack.top().equals("/")) {
  
           if (stack.top().equals("(") || stack.top().equals(")")) throw new LispException("invalid input");
  
-          nums.push(Double.parseDouble(stack.top()));
- 
-          //System.out.println(stack.top());
+          try {
+        	  nums.push(Double.parseDouble(stack.top()));
+          }
+          
+          catch (NumberFormatException e) {
+        	  throw new LispException("Invalid input");
+          }
  
           stack.pop();
  
@@ -69,6 +70,8 @@ public class LispEvaluator {
                 }
  
                 while (!nums.isEmpty()) {
+                	
+                  if (nums.top() == 0) throw new LispException("dividing by 0");
  
                   result /= nums.top();
  
@@ -79,7 +82,7 @@ public class LispEvaluator {
             }            
  
             else if (operator.equals("*")) {
- 
+            	//if (*) return 1
                     result = 1.0;
  
                 while (!nums.isEmpty()) {
@@ -105,7 +108,7 @@ public class LispEvaluator {
                 }  
  
             else if (operator.equals("-")) {
- 
+            	// (- a b c) is a - b - c
                   result = nums.top();
  
                   nums.pop();
@@ -143,9 +146,13 @@ public class LispEvaluator {
       }
  
     }
+// there should be a "(" left at this point, if not there is an error
+      if (stack.isEmpty()) {
+    	  throw new LispException("invalid input");
+      }
     
     stack.pop();
- 
+ // "stack" should be empty at this moment
       if (!stack.isEmpty())
  
           throw new LispException("Too many operands - operands left over");
