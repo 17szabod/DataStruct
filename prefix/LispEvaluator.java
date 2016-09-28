@@ -5,7 +5,11 @@ import java.util.Scanner;
  
 import stacks.*;
  
-
+/**
+ * Contains one static method which evaluates an expression in LSP
+ * @author 17szabod
+ *
+ */
  
 public class LispEvaluator {
   /**

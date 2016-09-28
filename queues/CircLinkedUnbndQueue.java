@@ -42,5 +42,16 @@ public class CircLinkedUnbndQueue<T> implements UnboundedQueueInterface<T> {
 	  return false;
   }
   
+  public void print() {
+	  if (isEmpty()) {
+		  throw new QueueUnderflowException("Queue is empty");
+	  }
+	  LLNode<T> temp = rear;
+	  while(temp.getLink() != rear) {
+		  System.out.println(temp.getInfo());
+		  temp = temp.getLink();
+	  }
+  }
+  
 
 }
