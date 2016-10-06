@@ -105,6 +105,16 @@ public void removeLast() throws Exception {
 	trailer.setLink(null);
 }
 
+public DLLNode search(String element) {
+	DLLNode<String> temp = (DLLNode<String>) header;
+	while(temp != null) {
+		if (temp.getInfo().contains(element)) {
+			return temp;
+		}
+	}
+	return null;
+}
+
 public boolean isEmpty()
 {
     return header == null;
