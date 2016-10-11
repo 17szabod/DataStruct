@@ -6,9 +6,9 @@ import java.util.Scanner;
 import support.*;
 
 public class StockTransaction {
-	
+
 	private DList<Stock> fullStocksList;
-	
+
 	public StockTransaction() throws FileNotFoundException {
 		Scanner stock = new Scanner(new FileReader("stocks.txt"));
 		Scanner transaction = new Scanner(new FileReader("transactions.txt"));
@@ -22,6 +22,14 @@ public class StockTransaction {
 		}
 		stock.close();
 		transaction.close();
+		// Get the key for stock names
+		/*DLLNode<String> tempStock = stocks.getHeader();
+		while(tempStock != null) {
+			String info = tempStock.getInfo();
+			stockNameKey.addToFront(new Stock(info.substring(0, info.indexOf(";")), info.substring(info.indexOf(";") + 1)));
+			tempStock = (DLLNode<String>) tempStock.getLink();
+		}*/
+		// Get the full list of stocks
 		String tempChar = "";
 		String totalString = "";
 		DLLNode<String> temp = transactions.getHeader();
@@ -40,14 +48,15 @@ public class StockTransaction {
 				}
 			}
 			DLLNode<String> start = tempList.getHeader();
-			fullStocksList.addToLast(new Stock(start.getInfo(), start.getLink().getInfo(), start.getLink().getLink().getInfo(), start.getLink().getLink().getLink().getInfo()));
+			Stock thisStock = new Stock(start.getInfo(), start.getLink().getInfo(), start.getLink().getLink().getInfo(), start.getLink().getLink().getLink().getInfo(), stocks.search(start.getInfo().getInfo().substring(start.getInfo().indexOf(";") + 1)));
+			fullStocksList.addToLast(thisStock);
 			tempList = new DList<String>();
 			temp = (DLLNode<String>) temp.getLink();
 		}
 	}
-	
+
 	public String stockCalc(String company) {
-		String compInfo = (String) transactions.search(company).getInfo();
+		String compInfo = (String) fullStocksList.search(company).getInfo();
 	}
 
 }
