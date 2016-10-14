@@ -66,7 +66,10 @@ public void addToFront(T elem) {
 
 }
 
-//add element to the end of the list
+/**
+ * add element to the end of the list
+ * @param elem - the element to be added
+ */
 public void addToLast(T elem) {
 	DLLNode<T> newNode = new DLLNode<T>(elem);
 	newNode.setLink(null);
@@ -83,28 +86,51 @@ public void addToLast(T elem) {
 	
 	size++;
 }
-
-public void remove(T element) throws Exception {
-	if(isEmpty()) throw new Exception("Thing is empty");
+/**
+ * Removes specified element from the list
+ * @param element - the element to be removed
+ * @throws Exception - a generic exception to be thrown if the list is empty
+ */
+public void remove(T element) {
+	if(isEmpty()) throw new Exception("Remove attempted on empty list");
 	if(trailer.getInfo() == element) removeLast();
+	boolean found = false;
 	DLLNode<T> temp = header;
 	while(temp != null) {
 		if (temp.getInfo().equals(element)) {
 			temp.getBack().setLink(temp.getLink());
-			((DLLNode) temp.getLink()).setBack(temp.getBack());
+			((DLLNode<T>) temp.getLink()).setBack(temp.getBack());
+			found = true;
+			break;
 		}
 		temp = temp.getBack();
 	}
+	if (!found) throw new Exception("Could not find element");
 }
-
-public void removeLast() throws Exception {
-	if (isEmpty()) throw new Exception("Thing is empty");
+/**
+ * Removes the last element of the list
+ */
+public void removeLast() {
+	if (isEmpty()) throw new Exception("Remove attempted on empty list");
 	DLLNode<T> temp = trailer;
 	trailer = trailer.getBack();
 	temp.setBack(null);
 	trailer.setLink(null);
 }
-
+/**
+ * Removes the first element of the list
+ */
+public void removeFirst() {
+	if (isEmpty()) throw new Exception("Thing is empty");
+	header = (DLLNode<T>) header.getLink();
+	header.setBack(null);
+}
+/**
+ * Finds the first node that contain element
+ * @precondition called on a DList of Strings
+ * @param element - the element to be searched for
+ * @return The node containing the element
+ */
 public DLLNode<String> search(String element) {
 	DLLNode<String> temp = (DLLNode<String>) header;
 	while(temp != null) {
@@ -114,12 +140,17 @@ public DLLNode<String> search(String element) {
 	}
 	return null;
 }
-
+/**
+ * Checks if the list is empty
+ * @return a boolean of whether the list is empty
+ */
 public boolean isEmpty()
 {
     return header == null;
 }
-
+/**
+ * prints the list
+ */
 public void print() {
 	DLLNode<T> v = header;
 	while (v != null) {
