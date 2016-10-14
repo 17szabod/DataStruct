@@ -91,7 +91,7 @@ public void addToLast(T elem) {
  * @param element - the element to be removed
  * @throws Exception - a generic exception to be thrown if the list is empty
  */
-public void remove(T element) {
+public void remove(T element) throws Exception {
 	if(isEmpty()) throw new Exception("Remove attempted on empty list");
 	if(trailer.getInfo() == element) removeLast();
 	boolean found = false;
@@ -109,8 +109,9 @@ public void remove(T element) {
 }
 /**
  * Removes the last element of the list
+ * @throws Exception 
  */
-public void removeLast() {
+public void removeLast() throws Exception {
 	if (isEmpty()) throw new Exception("Remove attempted on empty list");
 	DLLNode<T> temp = trailer;
 	trailer = trailer.getBack();
@@ -119,8 +120,9 @@ public void removeLast() {
 }
 /**
  * Removes the first element of the list
+ * @throws Exception 
  */
-public void removeFirst() {
+public void removeFirst() throws Exception {
 	if (isEmpty()) throw new Exception("Thing is empty");
 	header = (DLLNode<T>) header.getLink();
 	header.setBack(null);
@@ -137,6 +139,7 @@ public DLLNode<String> search(String element) {
 		if (temp.getInfo().contains(element)) {
 			return temp;
 		}
+		temp = (DLLNode<String>) temp.getLink();
 	}
 	return null;
 }

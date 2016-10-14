@@ -1,74 +1,82 @@
 package assignment4;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Scanner;
 import support.*;
+
 /**
  * A class that calculates capital gain
+ * 
  * @author Daniel Szabo
- *
+ * 
  */
 public class StockTransaction {
 
 	private DList<DList<String>> shares;
 	private DList<String> nameKey;
-/**
- * Has a side effect, prints out if file reading was successful
- */
+
+	/**
+	 * Has a side effect, prints out if file reading was successful
+	 */
 	public StockTransaction() {
+		nameKey = new DList<String>();
+		shares = new DList<DList<String>>();
 		Scanner stock = null;
 		Scanner transaction = null;
 		try {
-			stock = new Scanner(new FileReader(new File("stocks.txt").getAbsolutePath()));
-		}
-		catch(FileNotFoundException e) {
+			stock = new Scanner(new FileReader("src/assignment4/stocks.txt"));
+		} catch (FileNotFoundException e) {
 			throw new StockException("failure to read stocks.txt");
 		}
 		try {
-			transaction = new Scanner(new FileReader(new File("transactions.txt").getAbsolutePath()));
-		}
-		catch(FileNotFoundException e) {
-			throw new StockException("failure to read transactions.txt");			
+			transaction = new Scanner(new FileReader(
+					"src/assignment4/transactions.txt"));
+		} catch (FileNotFoundException e) {
+			throw new StockException("failure to read transactions.txt");
 		}
 		// Files have been successfully read if this point is reached
-		System.out.println("--successfully read stocks.txt and transactions.txt");
+		System.out
+				.println("--successfully read stocks.txt and transactions.txt");
 		shares = new DList<DList<String>>();
-		// add stock abbreviations and make a key for abbreviation to company name
-		while(stock.hasNext()) {
+		// add stock abbreviations and make a key for abbreviation to company
+		// name
+		while (stock.hasNextLine()) {
 			String thisLine = stock.nextLine();
 			String stockCode = thisLine.substring(0, thisLine.indexOf(";"));
 			nameKey.addToLast(thisLine);
 			DList<String> thisList = new DList<String>();
-			// put the stock code at the beginning of the list to help identify it in the future
+			// put the stock code at the beginning of the list to help identify
+			// it in the future
 			thisList.addToFront(stockCode);
 			shares.addToFront(thisList);
 		}
 		// Add +/- values to appropriate stockCodes
-		while(transaction.hasNext()) {
+		while (transaction.hasNextLine()) {
 			String thisLine = transaction.nextLine();
 			String stockCode = thisLine.substring(0, thisLine.indexOf(";"));
 			DLLNode<DList<String>> temp = shares.getHeader();
-			while(temp != null) {
+			while (temp != null) {
 				// If stockCode is the header of the list
-				if(temp.getInfo().getHeader().getInfo().equals(stockCode)) {
-					String transact = thisLine.substring(thisLine.indexOf(";") + 1);
+				if (temp.getInfo().getHeader().getInfo().equals(stockCode)) {
+					String transact = thisLine
+							.substring(thisLine.indexOf(";") + 1);
 					boolean buy = false;
-					if(transact.substring(0, transact.indexOf(";")).equals("buy")) {
+					if (transact.substring(0, transact.indexOf(";")).equals(
+							"buy")) {
 						buy = true;
 					}
 					transact = transact.substring(transact.indexOf(";") + 1);
-					int quantity = Integer.parseInt(transact.substring(0, transact.indexOf(";")));
+					int quantity = Integer.parseInt(transact.substring(0,
+							transact.indexOf(";")));
 					transact = transact.substring(transact.indexOf(";") + 1);
 					String value = transact.substring(1);
-					if(buy) {
-						for(int x = 0; x < quantity; x++) {
+					if (buy) {
+						for (int x = 0; x < quantity; x++) {
 							temp.getInfo().addToLast(value);
 						}
-					}
-					else {
-						for(int x = 0; x < quantity; x++) {
+					} else {
+						for (int x = 0; x < quantity; x++) {
 							temp.getInfo().addToLast("-" + value);
 						}
 					}
@@ -79,31 +87,40 @@ public class StockTransaction {
 		stock.close();
 		transaction.close();
 	}
-/**
- * calculates the capital gain or loss
- * @param company
- * @return String including capital gain or loss
- */
+
+	/**
+	 * calculates the capital gain or loss
+	 * 
+	 * @param company
+	 * @return String including capital gain or loss
+	 */
 	public String stockCalc(String company) {
 		DLLNode<DList<String>> temp = shares.getHeader();
 		DList<String> list = null;
-		while(temp != null) {
-			if(temp.getInfo().getHeader().equals(company)) {
+		while (temp != null) {
+			if (temp.getInfo().getHeader().getInfo().equalsIgnoreCase(company)) {
 				list = temp.getInfo();
 				break;
 			}
+			temp = (DLLNode<DList<String>>) temp.getLink();
 		}
+		if(list == null) throw new StockException("Sorry, the stock quote does not exist in the system.");
 		String stockKey = list.getHeader().getInfo();
-		list.removeFirst();
+		try {
+			list.removeFirst();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		DList<Double> buys = new DList<Double>();
 		DList<Double> sells = new DList<Double>();
 		DLLNode<String> start = list.getHeader();
-		while(start != null) {
+		while (start != null) {
 			double thisValue = Double.parseDouble(start.getInfo());
-			if(thisValue < 0) {
+			if (thisValue < 0) {
 				sells.addToLast(thisValue);
 			}
-			if(thisValue > 0) {
+			if (thisValue > 0) {
 				buys.addToLast(thisValue);
 			}
 			start = (DLLNode<String>) start.getLink();
@@ -112,29 +129,31 @@ public class StockTransaction {
 		DLLNode<Double> tempBuy = buys.getHeader();
 		DLLNode<Double> tempSell = sells.getHeader();
 		// goes through buys and sells in parallel, stops when sells run out
-		while(tempSell != null) {
+		while (tempSell != null) {
 			double buy = tempBuy.getInfo();
-			double sell = Math.abs(tempBuy.getInfo());
+			double sell = Math.abs(tempSell.getInfo());
 			double diff = sell - buy;
 			total += diff;
+			tempSell = (DLLNode<Double>) tempSell.getLink();
 			try {
 				tempBuy = (DLLNode<Double>) tempBuy.getLink();
+			} catch (Exception e) {
+				throw new StockException(
+						"Sorry, there is an error condition associated with Starbucks Corp. The number of sold shares exceeds the total buy quantity.");
 			}
-			catch(Exception e) {
-				throw new StockException("More stocks sold than bought");
-			}
-			tempSell = (DLLNode<Double>) tempSell.getLink();
 		}
 		// Find the appropriate name for the stockCode
-		String name = nameKey.search(stockKey).getInfo().substring(nameKey.search(stockKey).getInfo().indexOf(";") + 1);
-		if(total > 0) {
-			return "Congratulations, your realized gain for " + name + " is : $" + total;
+		String name = nameKey.search(stockKey).getInfo()
+				.substring(nameKey.search(stockKey).getInfo().indexOf(";") + 1);
+		if (total > 0) {
+			return "Congratulations, your realized gain for " + name
+					+ " is : $" + total;
 		}
-		if(total < 0) {
+		if (total < 0) {
 			return "Sorry, your realized loss for " + name + " is : $" + total;
 		}
 		return "Sorry, no realized gain(or loss) reported for " + name;
-		
+
 	}
 
 }
