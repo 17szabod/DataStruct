@@ -1,6 +1,7 @@
 package assignment4;
 
 public class StockException extends RuntimeException {
+		
 	public StockException()
 	  {
 	    super();

@@ -104,13 +104,19 @@ public class StockTransaction {
 			}
 			temp = (DLLNode<DList<String>>) temp.getLink();
 		}
-		if(list == null) throw new StockException("Sorry, the stock quote does not exist in the system.");
-		String stockKey = list.getHeader().getInfo();
+		String stockKey = "";
+		try {
+			stockKey = list.getHeader().getInfo();
+		}
+		catch(Exception e) {
+			throw new StockException(
+					"Sorry, the stock quote does not exist in the system.");
+		}
 		try {
 			list.removeFirst();
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			throw new StockException(
+					"This error literally will never show up, I just included it to satisfy the compiler");
 		}
 		DList<Double> buys = new DList<Double>();
 		DList<Double> sells = new DList<Double>();
