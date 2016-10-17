@@ -8,5 +8,3 @@ FB;buy;30;$40
 IBM;buy;50;$50
 FB;sell;20;$10
 SBUX;sell;30;$50
-MONEY;buy;50;$150
-MONEY;sell;1;$140
