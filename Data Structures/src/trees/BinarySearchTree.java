@@ -268,4 +268,68 @@ public class BinarySearchTree<T extends Comparable<T>>
       return postOrderQueue.dequeue();
     else return null;
   }
+  
+  private BSTNode<T> recGetLeftest(BSTNode<T> tree) {
+		if (tree.getRight() != null)
+			recGetLeftest(tree.getRight());
+		return tree;
+	}
+
+	public T getLeftest() {
+		return recGetLeftest(root).getInfo();
+	}
+
+	private BSTNode<T> recGetRightest(BSTNode<T> tree) {
+		  if (tree.getRight() != null)
+			  recGetMax(tree.getRight());
+		  return tree;
+	}
+
+	public T getRightest() {
+		  return recGetRightest(root).getInfo();
+	}
+
+	private void recPrintLeaves(BSTNode<T> tree) {
+		if(tree.getLeft() == null && tree.getRight() == null) {
+			System.out.println(tree.getInfo());
+		}
+		recPrintLeaves(tree.getLeft());
+		recPrintLeaves(tree.getRight());
+	}
+
+	public void printLeaves() {
+		recPrintLeaves(root);
+	}
+  
+  public void printSideways(){
+	  printSideways(root,"");
+  }
+
+  private void printSideways(BSTNode<T> tree, String indent) {
+	if(tree != null) {
+		printSideways(tree.getRight(),indent+"    ");
+		System.out.println(indent+tree.getInfo());
+		printSideways(tree.getLeft(),indent+"    ");
+	}
+  }
+  
+  private BSTNode<T> recGetMax(BSTNode<T> tree) {
+	  if (tree.getRight() != null)
+		  recGetMax(tree.getRight());
+	  return tree;
+  }
+  
+  public T getMax() {
+	  return recGetMax(root).getInfo();
+  }
+  
+  public BSTNode<T> recSecondLargest(BSTNode<T> tree) {
+	  BinarySearchTree<T> list = new BinarySearchTree<T>();
+	  if (tree.getRight() != null) {
+		  list.add(recGetMax(tree.getLeft()).getInfo());
+		  recSecondLargest(tree.getRight());
+	  }
+	  list.add(recGetMax(tree.getLeft()).getInfo());
+	  return list.recGetMax(root);
+  }
 }
