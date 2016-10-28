@@ -351,18 +351,20 @@ public class BinarySearchTree<T extends Comparable<T>>
 	  return recGetMax(root).getInfo();
   }
   
-  private BSTNode<T> recSecondLargest(BSTNode<T> tree) {
-	  BinarySearchTree<T> list = new BinarySearchTree<T>();
+  private T recSecondLargest(BSTNode<T> tree, T currSecond, boolean goneLeft) {
 	  if (tree.getRight() != null) {
-		  list.add(recGetMax(tree.getLeft()).getInfo());
-		  recSecondLargest(tree.getRight());
+		  recSecondLargest(tree.getRight(), tree.getInfo(), false);
 	  }
-	  list.add(recGetMax(tree.getLeft()).getInfo());
-	  return list.recGetMax(root);
+	  else if (tree.getLeft() != null && !goneLeft) {
+		  if (tree.getLeft().getInfo().compareTo(currSecond) > 0) {
+			  return tree.getLeft().getInfo();
+		  }
+	  }
+	  return currSecond;
   }
   
   public T secondLargest() {
-	  return recSecondLargest(root).getInfo();
+	  return recSecondLargest(root, null, false);
   }
   
   private BSTNode<T> recRevAdd(T element, BSTNode<T> tree)
@@ -378,17 +380,23 @@ public class BinarySearchTree<T extends Comparable<T>>
     return tree;
   }
   
-  private int recHeight(BSTNode<T> tree, int height, int maxH) {
+  private int recHeight(BSTNode<T> tree) {
 	  if (tree.getLeft() == null && tree.getRight() == null) {
 		  return 1;
 	  }
-	  height++;
-	  if (height > maxH) maxH = height;
-	  
-	  int max = recHeight(tree.getLeft(), height, maxH);
+	  int leftH = 0;
+	  int rightH = 0;
+	  if (tree.getLeft() != null)
+		  leftH = recHeight(tree.getLeft()) + 1;
+	  if (tree.getRight() != null)
+		  rightH = recHeight(tree.getRight()) + 1;
+	  if (leftH >= rightH)
+		  return leftH;
+	  else
+		  return rightH;
   }
   
   public int height() {
-	  return recHeight(root, 0);
+	  return recHeight(root);
   }
 }

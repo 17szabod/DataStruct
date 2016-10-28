@@ -15,7 +15,7 @@ public class TestTree {
 		tree.add(90);
 		tree.add(80);
 		tree.add(100);
-		
+		/*
 		tree.printSideways();
 		
 		int treeSize = tree.reset(BinarySearchTree.INORDER);
@@ -24,8 +24,10 @@ public class TestTree {
         {
           int element = (Integer) tree.getNext(BinarySearchTree.INORDER);
           System.out.println(element);
-        }
-		
+        }*/
+		System.out.println(tree.count(30));
+		System.out.println(tree.secondLargest());
+		System.out.println(tree.height());
 
 		
 	}
