@@ -1,4 +1,3 @@
-//----------------------------------------------------------------------------
 // BinarySearchTree.java          by Dale/Joyce/Weems                Chapter 8
 //
 // Defines all constructs for a reference-based BST
@@ -300,6 +299,35 @@ public class BinarySearchTree<T extends Comparable<T>>
 	public void printLeaves() {
 		recPrintLeaves(root);
 	}
+	
+	private int recCount(T element, BSTNode<T> tree, int count) {
+		if(element.compareTo(tree.getInfo()) <= 0) {
+			if (element.compareTo(tree.getInfo()) == 0)
+				return recCount(element, tree.getLeft(), count) + 1;
+			else
+				return recCount(element, tree.getLeft(), count);
+		}
+		else if (element.compareTo(tree.getInfo()) > 0) {
+			return recCount(element, tree.getRight(), count);
+		}
+		return 0;
+	}
+	
+	public int count(T element) {
+		return recCount(element, root, 0);
+	}
+	
+	public int count2(T element) {
+		postOrder(root);
+		T temp = postOrderQueue.dequeue();
+		int count = 0;
+		while (temp != null) {
+			if (temp.compareTo(element) == 0)
+				count++;
+			temp = postOrderQueue.dequeue();
+		}
+		return count;
+	}
   
   public void printSideways(){
 	  printSideways(root,"");
@@ -335,6 +363,19 @@ public class BinarySearchTree<T extends Comparable<T>>
   
   public T secondLargest() {
 	  return recSecondLargest(root).getInfo();
+  }
+  
+  private BSTNode<T> recRevAdd(T element, BSTNode<T> tree)
+  // Adds element to tree; tree retains its BST property.
+  {
+    if (tree == null)
+      // Addition place found
+      tree = new BSTNode<T>(element);
+    else if (element.compareTo(tree.getInfo()) <= 0)
+      tree.setLeft(recAdd(element, tree.getLeft()));    // Add in left subtree
+    else
+      tree.setRight(recAdd(element, tree.getRight()));   // Add in right subtree
+    return tree;
   }
   
   private int recHeight(BSTNode<T> tree, int height, int maxH) {
