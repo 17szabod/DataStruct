@@ -1,6 +1,6 @@
 package trees;
 
-import support.BSTNode;
+//import support.BSTNode;
 
 public class TestTree {
 
@@ -10,13 +10,14 @@ public class TestTree {
 		tree.add(50);
 		tree.add(40);
 		tree.add(30);
+		tree.add(15);
 		tree.add(45);
 		tree.add(60);
 		tree.add(90);
 		tree.add(80);
 		tree.add(100);
-		/*
 		tree.printSideways();
+		/*
 		
 		int treeSize = tree.reset(BinarySearchTree.INORDER);
         System.out.println("The tree in Inorder is:");
@@ -24,10 +25,8 @@ public class TestTree {
         {
           int element = (Integer) tree.getNext(BinarySearchTree.INORDER);
           System.out.println(element);
-        }*/
-		System.out.println(tree.count(30));
-		System.out.println(tree.secondLargest());
-		System.out.println(tree.height());
+        }**/
+        tree.printPaths();
 
 		
 	}

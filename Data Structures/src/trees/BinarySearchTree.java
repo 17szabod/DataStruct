@@ -269,8 +269,8 @@ public class BinarySearchTree<T extends Comparable<T>>
   }
   
   private BSTNode<T> recGetLeftest(BSTNode<T> tree) {
-		if (tree.getRight() != null)
-			recGetLeftest(tree.getRight());
+		if (tree.getLeft() != null)
+			return recGetLeftest(tree.getLeft());
 		return tree;
 	}
 
@@ -280,7 +280,7 @@ public class BinarySearchTree<T extends Comparable<T>>
 
 	private BSTNode<T> recGetRightest(BSTNode<T> tree) {
 		  if (tree.getRight() != null)
-			  recGetMax(tree.getRight());
+			  return recGetRightest(tree.getRight());
 		  return tree;
 	}
 
@@ -292,39 +292,46 @@ public class BinarySearchTree<T extends Comparable<T>>
 		if(tree.getLeft() == null && tree.getRight() == null) {
 			System.out.println(tree.getInfo());
 		}
-		recPrintLeaves(tree.getLeft());
-		recPrintLeaves(tree.getRight());
+		if (tree.getLeft() != null)
+			recPrintLeaves(tree.getLeft());
+		if (tree.getRight() != null)
+			recPrintLeaves(tree.getRight());
 	}
 
 	public void printLeaves() {
 		recPrintLeaves(root);
 	}
 	
-	private int recCount(T element, BSTNode<T> tree, int count) {
-		if(element.compareTo(tree.getInfo()) <= 0) {
+	private int recCount(T element, BSTNode<T> tree) {
+		if (tree == null) return 0;
+		if (element.compareTo(tree.getInfo()) <= 0) {
 			if (element.compareTo(tree.getInfo()) == 0)
-				return recCount(element, tree.getLeft(), count) + 1;
+				return recCount(element, tree.getLeft()) + 1;
 			else
-				return recCount(element, tree.getLeft(), count);
+				return recCount(element, tree.getLeft());
 		}
 		else if (element.compareTo(tree.getInfo()) > 0) {
-			return recCount(element, tree.getRight(), count);
+			if (element.compareTo(tree.getInfo()) == 0)
+				return recCount(element, tree.getRight()) + 1;
+			else
+				return recCount(element, tree.getRight());
 		}
-		return 0;
+		return -99999;
 	}
 	
 	public int count(T element) {
-		return recCount(element, root, 0);
+		return recCount(element, root);
 	}
 	
 	public int count2(T element) {
+		postOrderQueue = new LinkedUnbndQueue<T>();
 		postOrder(root);
-		T temp = postOrderQueue.dequeue();
+		T temp = null;
 		int count = 0;
-		while (temp != null) {
+		while (!postOrderQueue.isEmpty()) {
+			temp = postOrderQueue.dequeue();
 			if (temp.compareTo(element) == 0)
 				count++;
-			temp = postOrderQueue.dequeue();
 		}
 		return count;
 	}
@@ -343,7 +350,7 @@ public class BinarySearchTree<T extends Comparable<T>>
   
   private BSTNode<T> recGetMax(BSTNode<T> tree) {
 	  if (tree.getRight() != null)
-		  recGetMax(tree.getRight());
+		  return recGetMax(tree.getRight());
 	  return tree;
   }
   
@@ -353,18 +360,16 @@ public class BinarySearchTree<T extends Comparable<T>>
   
   private T recSecondLargest(BSTNode<T> tree, T currSecond, boolean goneLeft) {
 	  if (tree.getRight() != null) {
-		  recSecondLargest(tree.getRight(), tree.getInfo(), false);
+		  currSecond = recSecondLargest(tree.getRight(), tree.getInfo(), goneLeft);
 	  }
 	  else if (tree.getLeft() != null && !goneLeft) {
-		  if (tree.getLeft().getInfo().compareTo(currSecond) > 0) {
-			  return tree.getLeft().getInfo();
-		  }
+		  currSecond = recSecondLargest(tree.getLeft(), tree.getLeft().getInfo(), true);
 	  }
 	  return currSecond;
   }
   
   public T secondLargest() {
-	  return recSecondLargest(root, null, false);
+	  return recSecondLargest(root, root.getInfo(), false);
   }
   
   private BSTNode<T> recRevAdd(T element, BSTNode<T> tree)
@@ -378,6 +383,57 @@ public class BinarySearchTree<T extends Comparable<T>>
     else
       tree.setRight(recAdd(element, tree.getRight()));   // Add in right subtree
     return tree;
+  }
+  
+  private void revAdd(T element) {
+	  recRevAdd(element, root);
+  }
+  
+  private void recReverse(BSTNode<T> tree) {
+	  if (tree.getLeft() != null)
+		  recReverse(tree.getLeft());
+	  if (tree.getRight() != null)
+		  recReverse(tree.getRight());
+	  BSTNode<T> temp = tree.getRight();
+	  tree.setRight(tree.getLeft());
+	  tree.setLeft(temp);
+  }
+  
+  public BinarySearchTree<T> reverse() {
+	  // make a shallow copy
+	  BinarySearchTree<T> copy = this;
+	  recReverse(copy.root);
+	  return copy;
+  }
+  
+  private void recPrintRights(BSTNode<T> tree) {
+	  if (tree != null) {
+		  System.out.print(tree.getInfo() + " ");
+		  recPrintRights(tree.getRight());
+	  }
+  }
+  
+  private void recPrintLefts(BSTNode<T> tree) {
+	  if (tree != null) {
+		  System.out.print(tree.getInfo() + " ");
+		  recPrintLefts(tree.getLeft());
+	  }
+  }
+  
+  private void recPrintPaths(BSTNode<T> tree) {
+	  if (tree != null) {
+		  System.out.print(tree.getInfo() + " ");
+		  if (tree.getLeft() == null && tree.getRight() == null) {
+			  System.out.println("");
+		  }
+		  recPrintPaths(tree.getLeft());
+		  recPrintPaths(tree.getRight());
+	  }
+  }
+  
+  public void printPaths() {
+	  recPrintPaths(root);
+	  
   }
   
   private int recHeight(BSTNode<T> tree) {
