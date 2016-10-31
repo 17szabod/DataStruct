@@ -420,11 +420,11 @@ public class BinarySearchTree<T extends Comparable<T>>
 	  }
   }
   
-  private void recPrintPaths(BSTNode<T> tree) {
+  private void recPrintPaths(BSTNode<T> tree, String toPrint) {
 	  if (tree != null) {
-		  System.out.print(tree.getInfo() + " ");
+		  toPrint += tree.getInfo() + "";
 		  if (tree.getLeft() == null && tree.getRight() == null) {
-			  System.out.println("");
+			  System.out.println(toPrint);
 		  }
 		  recPrintPaths(tree.getLeft());
 		  recPrintPaths(tree.getRight());
