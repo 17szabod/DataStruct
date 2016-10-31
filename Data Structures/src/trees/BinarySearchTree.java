@@ -316,7 +316,7 @@ public class BinarySearchTree<T extends Comparable<T>>
 			else
 				return recCount(element, tree.getRight());
 		}
-		return -99999;
+		return -99999;//we had an error
 	}
 	
 	public int count(T element) {
@@ -360,16 +360,19 @@ public class BinarySearchTree<T extends Comparable<T>>
   
   private T recSecondLargest(BSTNode<T> tree, T currSecond, boolean goneLeft) {
 	  if (tree.getRight() != null) {
-		  currSecond = recSecondLargest(tree.getRight(), tree.getInfo(), goneLeft);
+		  return recSecondLargest(tree.getRight(), tree.getInfo(), goneLeft);
 	  }
 	  else if (tree.getLeft() != null && !goneLeft) {
-		  currSecond = recSecondLargest(tree.getLeft(), tree.getLeft().getInfo(), true);
+		  return recSecondLargest(tree.getLeft(), tree.getLeft().getInfo(), true);
+	  }
+	  else if (tree.getLeft() != null && goneLeft) {
+		  return tree.getInfo();
 	  }
 	  return currSecond;
   }
   
   public T secondLargest() {
-	  return recSecondLargest(root, root.getInfo(), false);
+	  return recSecondLargest(root, null, false);
   }
   
   private BSTNode<T> recRevAdd(T element, BSTNode<T> tree)
@@ -400,9 +403,25 @@ public class BinarySearchTree<T extends Comparable<T>>
   }
   
   public BinarySearchTree<T> reverse() {
-	  // make a shallow copy
-	  BinarySearchTree<T> copy = this;
-	  recReverse(copy.root);
+	  BinarySearchTree<T> copy = copy();
+	  copy.recReverse(copy.root);
+	  return copy;
+  }
+  
+  private BSTNode<T> recCopy(BSTNode<T> tree) {
+	  BSTNode<T> newNode = new BSTNode<T>(tree.getInfo());
+	  if (tree.getLeft() != null) {
+		  newNode.setLeft(recCopy(tree.getLeft()));
+	  }
+	  if (tree.getRight() != null) {
+		  newNode.setRight(recCopy(tree.getRight()));
+	  }
+	  return newNode;
+  }
+  
+  public BinarySearchTree<T> copy() {
+	  BinarySearchTree<T> copy = new BinarySearchTree<T>();
+	  copy.root = recCopy(root);
 	  return copy;
   }
   
@@ -422,17 +441,17 @@ public class BinarySearchTree<T extends Comparable<T>>
   
   private void recPrintPaths(BSTNode<T> tree, String toPrint) {
 	  if (tree != null) {
-		  toPrint += tree.getInfo() + "";
+		  toPrint += tree.getInfo() + " ";
 		  if (tree.getLeft() == null && tree.getRight() == null) {
 			  System.out.println(toPrint);
 		  }
-		  recPrintPaths(tree.getLeft());
-		  recPrintPaths(tree.getRight());
+		  recPrintPaths(tree.getLeft(), toPrint);
+		  recPrintPaths(tree.getRight(), toPrint);
 	  }
   }
   
   public void printPaths() {
-	  recPrintPaths(root);
+	  recPrintPaths(root, "");
 	  
   }
   
