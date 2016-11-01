@@ -316,7 +316,7 @@ public class BinarySearchTree<T extends Comparable<T>>
 			else
 				return recCount(element, tree.getRight());
 		}
-		return -99999;//we had an error
+		return -1;//we had an error
 	}
 	
 	public int count(T element) {
@@ -388,7 +388,7 @@ public class BinarySearchTree<T extends Comparable<T>>
     return tree;
   }
   
-  private void revAdd(T element) {
+  public void revAdd(T element) {
 	  recRevAdd(element, root);
   }
   

@@ -7,18 +7,8 @@ public class TestTree {
 	public static void main(String[] args) {
 		
 		BinarySearchTree<Integer> tree= new BinarySearchTree<Integer>();
-		/*tree.add(96);
-		tree.add(24);
-		tree.add(9);
-		tree.add(58);
-		tree.add(47);
-		tree.add(93);
-		tree.add(42);
-		tree.add(24);
-		tree.add(92);
-		tree.add(66);*/
-		tree.add(5);
-		tree.add(10);
+		tree.add(1);
+		tree.add(2);
 		tree.printSideways();
 		/*
 		
@@ -29,7 +19,14 @@ public class TestTree {
           int element = (Integer) tree.getNext(BinarySearchTree.INORDER);
           System.out.println(element);
         }**/
+		System.out.println("Second Largest:");
 		System.out.println(tree.secondLargest());
+		System.out.println("Height:");
+		System.out.println(tree.height());
+		System.out.println("Paths:");
+		tree.printPaths();
+		System.out.println("Reversed:");
+		tree.reverse().printSideways();
 
 		
 	}
