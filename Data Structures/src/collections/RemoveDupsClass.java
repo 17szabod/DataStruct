@@ -32,7 +32,7 @@ public class RemoveDupsClass {
 			copy.add(e);
 		}
 		for (int x = copy.size() - 1; x >= 0; x--) {
-			for (int y = copy.indexOf(x); y >= 0; y--) {
+			for (int y = x + 1; y < copy.size(); y++) {
 				if (copy.get(x).equals(copy.get(y))) {
 					copy.remove(y);
 				}
