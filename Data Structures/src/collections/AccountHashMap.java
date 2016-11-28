@@ -11,6 +11,18 @@ import java.util.Set;
  */
 
 public class AccountHashMap {
+	
+	public static void displayAccountsWithEqualBalances(HashMap<String, BankAccount> accountMap) {
+		Set<String> keys = (Set<String>) accountMap.keySet();
+		HashMap<String, BankAccount> map = new HashMap<String, BankAccount>();
+		for (String key : keys) {
+			if (map.containsValue(map.get(key))) {
+				System.out.println(key);
+			}
+			map.put(key, map.get(key));
+		}
+	}
+	
 	public static void main(String[] args) {
 		// Create a HashMap to store Account objects.
 		Map<String, BankAccount> accountMap = new HashMap<String, BankAccount>();
@@ -20,15 +32,19 @@ public class AccountHashMap {
 		BankAccount sallyAccount = new BankAccount(2000);
 		BankAccount peterAccount = new BankAccount(3000);
 		BankAccount testAccount = new BankAccount(10000);
+		BankAccount gayAccount = new BankAccount(3000);
 
 		// Put some mappings into the HashMap. In each mapping,
 		// account number is the key and bankaccount object is the value
 		accountMap.put("101", johnAccount);
 		accountMap.put("102", sallyAccount);
 		accountMap.put("103", peterAccount);
+		accountMap.put("104", gayAccount);
 		if (!accountMap.containsKey("103"))
 			accountMap.put("103", testAccount);
 
+		AccountHashMap.displayAccountsWithEqualBalances((HashMap<String, BankAccount>) accountMap);
+		
 		// Search for a sample account number
 		System.out
 				.println("\nSearching for the account with account number 103");
