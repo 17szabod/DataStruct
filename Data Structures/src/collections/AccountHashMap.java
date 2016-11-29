@@ -16,8 +16,8 @@ public class AccountHashMap {
 		Set<String> keys = (Set<String>) accountMap.keySet();
 		HashMap<String, BankAccount> map = new HashMap<String, BankAccount>();
 		for (String key : keys) {
-			if (map.containsValue(map.get(key))) {
-				System.out.println(key);
+			if (!map.containsValue(map.get(key))) {
+				System.out.println("The repeated value has a key of: " + key);
 			}
 			map.put(key, map.get(key));
 		}

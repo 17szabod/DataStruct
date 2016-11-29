@@ -23,7 +23,12 @@ public class RemoveDupsClass {
 		for (String e : set) {
 			ret.add(e);
 		}
-		return ret;
+		//Reverse ret
+		ArrayList<String> rev = new ArrayList<String>();
+		for (int x = 0; x < ret.size(); x++) {
+			rev.add(ret.get(ret.size() - x - 1));
+		}
+		return rev;
 	}
 	
 	public static ArrayList<String> remDup(ArrayList<String> arr) {
