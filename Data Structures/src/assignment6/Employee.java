@@ -4,18 +4,24 @@ public class Employee {
 	private String name;
 	private int ssn;
 	private String address;
+	private int salary;
 	private boolean male;
 	private String bDate;
 	private int depNum;
 	private int supSSN;
 	
-	public Employee(int ssn, String address, String bDate, int depNum, int supSSN, String name) {
+	public Employee(int ssn, String address, String bDate, int depNum, int supSSN, String name, int salary) {
 		this.name = name;
 		this.ssn = ssn;
 		this.address = address;
 		this.bDate = bDate;
 		this.depNum = depNum;
 		this.supSSN = supSSN;
+		this.salary = salary;
+	}
+	
+	public int getSalary() {
+		return salary;
 	}
 	
 	public String getName() {

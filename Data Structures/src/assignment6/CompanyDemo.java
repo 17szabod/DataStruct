@@ -14,15 +14,18 @@ public class CompanyDemo {
 		HashMap<Integer, Employee> employees = new HashMap<Integer, Employee>();
 		while (scanEmps.hasNextLine()) {
 			int y = 0;
-			String name;
-			int ssn;
-			String date;
-			String address;
-			int salary;
-			int superSSN;
-			int depNum;
-			String holdIt;
+			String name = "";
+			int ssn = 0;
+			String date = "";
+			String address = "";
+			int salary = 0;
+			int superSSN = 0;
+			int depNum = 0;
+			String holdIt = "";
 			String toProc = scanEmps.nextLine();
+			while (toProc.contains(",,")) {
+				toProc = toProc.replace(",,", ",0,");
+			}
 			for (int x = 0; x < toProc.length(); x++) {
 				String temp = toProc.substring(x, x + 1);
 				if (temp.equals(",")) {
@@ -30,25 +33,34 @@ public class CompanyDemo {
 					switch (y) {
 					case 2:
 						name = holdIt;
+						holdIt = "";
 					case 3:
 						ssn = Integer.parseInt(holdIt);
+						holdIt = "";
 					case 4:
 						date = holdIt;
-					case 5:
-						address = holdIt;
-					case 6:
-						salary = Integer.parseInt(holdIt);
+						holdIt = "";
 					case 7:
-						superSSN = Integer.parseInt(holdIt);
+						address = holdIt;
+						holdIt = "";
 					case 8:
+						salary = Integer.parseInt(holdIt);
+						holdIt = "";
+					case 9:
+						superSSN = Integer.parseInt(holdIt);
+						holdIt = "";
+					case 10:
 						depNum = Integer.parseInt(holdIt);
+						holdIt = "";
+					default:
+						holdIt += temp;
 					}
 				}
 				else {
 					holdIt += temp;
 				}
 			}
-			Employee newGuy = new Employee(ssn, address, date, depNum, superSSN, name);
+			Employee newGuy = new Employee(ssn, address, date, depNum, superSSN, name, salary);
 			employees.put(ssn, newGuy);
 		}
 		FileReader DReader = new FileReader("DEPARTMENT.txt");
@@ -57,12 +69,15 @@ public class CompanyDemo {
 		HashMap<Integer, Department> departments = new HashMap<Integer, Department>();
 		while (scanDeps.hasNextLine()) {
 			int y = 0;
-			String name;
-			int dNum;
-			int mgrSSN;
-			String date;
-			String holdIt;
+			String name = null;
+			int dNum = 0;
+			int mgrSSN = 0;
+			String date = null;
+			String holdIt = null;
 			String toProc = scanDeps.nextLine();
+			if (toProc.contains(",,")) {
+				toProc.replace(",,", ",0,");
+			}
 			for (int x = 0; x < toProc.length(); x++) {
 				String temp = toProc.substring(x, x + 1);
 				if (temp.equals(",")) {
@@ -114,9 +129,10 @@ public class CompanyDemo {
 	
 	public static int getSupervisor(int ssn, HashMap<Integer, Employee> employees) {
 		System.out.println(employees.get(ssn).getName());
-		if (ssn != 0) {
-			getSupervisor(ssn, employees);
+		if (employees.get(ssn).getSupervisorSSN() != 0) {
+			getSupervisor(employees.get(ssn).getSupervisorSSN(), employees);
 		}
+		return employees.get(ssn).getSupervisorSSN();
 	}
 
 }
