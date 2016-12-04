@@ -7,9 +7,16 @@ import java.util.Scanner;
 
 public class CompanyDemo {
 
-	public static void main(String[] args) throws FileNotFoundException {
-		FileReader EReader = new FileReader("EMPLOYEE.txt");
+	public static void main(String[] args) {
+		FileReader EReader = null;
+		try {
+		EReader = new FileReader("EMPLOYEE.txt");
+		}
+		catch (FileNotFoundException e) {
+			throw new CompanyException("Error reading Employee file");
+		}
 		Scanner scanEmps = new Scanner(EReader);
+		// Skips the first line
 		scanEmps.nextLine();
 		HashMap<Integer, Employee> employees = new HashMap<Integer, Employee>();
 		while (scanEmps.hasNextLine()) {
@@ -19,13 +26,26 @@ public class CompanyDemo {
 			}
 			String[] lineData = temp.split(",");
 			String tempAdd = lineData[4] + lineData[5] + lineData[6];
-			Employee emp = new Employee(lineData[0] + " " + lineData[1], Integer.parseInt(lineData[2]), 
-					lineData[3], tempAdd, Integer.parseInt(lineData[7]), Integer.parseInt(lineData[8])
-					, Integer.parseInt(lineData[9]));
+			Employee emp = null;
+			try {
+				emp = new Employee(lineData[0] + " " + lineData[1], Integer.parseInt(lineData[2]), 
+						lineData[3], tempAdd, Integer.parseInt(lineData[7]), Integer.parseInt(lineData[8]), 
+						Integer.parseInt(lineData[9]));
+			}
+			catch (NumberFormatException e) { // Catches an error with the parseInt() method
+				throw new CompanyException("File format error in EMPLOYEE.txt");
+			}
 			employees.put(Integer.parseInt(lineData[2]), emp);
 		}
-		FileReader DReader = new FileReader("DEPARTMENT.txt");
+		FileReader DReader = null;
+		try {
+		DReader = new FileReader("DEPARTMENT.txt");
+		}
+		catch (FileNotFoundException e) {
+			throw new CompanyException("Error reading Department file");
+		}
 		Scanner scanDeps = new Scanner(DReader);
+		// Skips the first line
 		scanDeps.nextLine();
 		HashMap<Integer, Department> departments = new HashMap<Integer, Department>();
 		while (scanDeps.hasNextLine()) {
@@ -34,9 +54,17 @@ public class CompanyDemo {
 				temp = temp.replace(",,", ",0,");
 			}
 			String[] lineData = temp.split(",");
-			Department newDep = new Department(lineData[0], Integer.parseInt(lineData[1]), Integer.parseInt(lineData[2]), lineData[3]);
+			Department newDep = null;
+			try {
+				Department newDep = new Department(lineData[0], Integer.parseInt(lineData[1]), 
+						Integer.parseInt(lineData[2]), lineData[3]);
+			}
+			catch (NumberFormatException e) { // Catches an error with the parseInt() method
+				throw new CompanyException("File format error in DEPARTMENT.txt");
+			}			
 			departments.put(Integer.parseInt(lineData[1]), newDep);
 		}
+		// Done reading files, moves on to the interface
 		Scanner in = new Scanner(System.in);
 		boolean done = false;
 		while (!done) {
@@ -56,6 +84,7 @@ public class CompanyDemo {
 		    case 2:
 		    	System.out.println("Please enter employee social security number");
 		    	int socSecNum = in.nextInt();
+		    	// method prints the supervisors
 		    	getSupervisor(employees.get(socSecNum).getSupervisorSSN(), employees);
 		    	break;
 		    case 3:
