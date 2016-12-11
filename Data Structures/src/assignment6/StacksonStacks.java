@@ -1,14 +1,15 @@
-package stacksonstacks;
+package assignment6;
 
 import java.util.Scanner;
 
-public class StacksOnStacks {
-	public static void main (String[] args) {
+public class StacksonStacks {
+	
+	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
 		int n = in.nextInt();
 		int m = 0;
 		int[][] supArr = new int[n][10000];
-		for (int y = 0; y < m; y++) {
+		for (int y = 0; y < n; y++) {
 			m = in.nextInt();
 			int[] arr = new int[m];
 			for (int x = 0; x < m; x++) {
