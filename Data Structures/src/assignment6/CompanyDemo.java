@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class CompanyDemo {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws CompanyException {
 		FileReader EReader = null;
 		try {
 		EReader = new FileReader("EMPLOYEE.txt");
@@ -56,7 +56,7 @@ public class CompanyDemo {
 			String[] lineData = temp.split(",");
 			Department newDep = null;
 			try {
-				Department newDep = new Department(lineData[0], Integer.parseInt(lineData[1]), 
+				newDep = new Department(lineData[0], Integer.parseInt(lineData[1]), 
 						Integer.parseInt(lineData[2]), lineData[3]);
 			}
 			catch (NumberFormatException e) { // Catches an error with the parseInt() method
