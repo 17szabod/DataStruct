@@ -15,9 +15,8 @@ public class DFSofDAG {
 		if (currList.isEmpty()) {
 			return "";
 		}
-		T currNode = currentNode;
 		try {
-			currNode = currList.peek();
+			T currNode = currList.dequeue();
 		}
 		catch (QueueUnderflowException ex) {
 			return "";
@@ -31,7 +30,6 @@ public class DFSofDAG {
 			}
 		}
 		visited.add(currentNode);
-		currNode = currList.dequeue();
 		while (!currList.isEmpty())
 			return traverse(adjLists, currNode, visited) + currNode;
 		adjLists.remove(currList);
