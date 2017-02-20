@@ -3,76 +3,84 @@ import java.util.ArrayList;
 import queues.*;
 
 public class DFSofDAG {
-	public static <T> String traverse(ArrayList<UnboundedQueueInterface<T>> adjLists, T currentNode, ArrayList<T> visited) {
-		if (adjLists.isEmpty()) return "";
+	public static <T> String traverse(ArrayList<UnboundedQueueInterface<T>> adjLists, T currentNode, ArrayList<T> visited, T firstGuy) {
 		UnboundedQueueInterface<T> currList = new LinkedUnbndQueue<T>();
+		String total = "";
 		for (UnboundedQueueInterface<T> list : adjLists) {
-			if (((LinkedUnbndQueue<T>) list).peek().equals(currentNode)) {
+			if (((LinkedUnbndQueue<T>) list).getInfo().equals(currentNode)) {
 				currList = list;
 				break;
 			}
 		}
-		if (currList.isEmpty()) {
-			return "";
-		}
-		try {
-			T currNode = currList.dequeue();
-		}
-		catch (QueueUnderflowException ex) {
-			return "";
-		}
-		while (visited.contains(currNode)) {
-			try {
-				currNode = currList.dequeue();
+		boolean both = false;
+		a: while (!currList.isEmpty()) {
+			T nextNode = currList.dequeue();
+			while (visited.contains(nextNode)) {
+				try {
+					nextNode = currList.dequeue();
+				}
+				catch (QueueUnderflowException e) {
+					both = true;
+					adjLists.remove(currList);
+					total = total + (String) currentNode;
+					break a;
+				}
 			}
-			catch (QueueUnderflowException e) {
-				return "";
-			}
+			visited.add(nextNode);
+			total = total + traverse(adjLists, nextNode, visited, firstGuy);
 		}
-		visited.add(currentNode);
-		while (!currList.isEmpty())
-			return traverse(adjLists, currNode, visited) + currNode;
-		adjLists.remove(currList);
-		return traverse(adjLists, currNode, visited) + currNode;
+		if (currList.isEmpty() && !both) {
+			adjLists.remove(currList);
+			total = total + (String) currentNode;
+		}
+		if (adjLists.isEmpty()) return total;
+		if (firstGuy.equals(currentNode)) total = total + traverse(adjLists, adjLists.get(0).getInfo(), visited, adjLists.get(0).getInfo());
+		return total;
 	}
 	
 	public static void main(String[] args) {
 		ArrayList<UnboundedQueueInterface<String>> adjLists = new ArrayList<UnboundedQueueInterface<String>>();
 		UnboundedQueueInterface<String> A = new LinkedUnbndQueue<String>();
-		A.enqueue("A");
-		A.enqueue("B");
+		A.setInfo("A");
+		A.enqueue("D");
 		A.enqueue("E");
-		A.enqueue("F");
 		adjLists.add(A);
 		UnboundedQueueInterface<String> B = new LinkedUnbndQueue<String>();
-		B.enqueue("B");
-		B.enqueue("F");
-		B.enqueue("G");
+		B.setInfo("B");
+		B.enqueue("C");
+		B.enqueue("D");
 		adjLists.add(B);
 		UnboundedQueueInterface<String> C = new LinkedUnbndQueue<String>();
-		C.enqueue("C");
-		C.enqueue("D");
-		C.enqueue("G");
+		C.setInfo("C");
 		adjLists.add(C);
 		UnboundedQueueInterface<String> D = new LinkedUnbndQueue<String>();
-		D.enqueue("D");
-		D.enqueue("H");
+		D.setInfo("D");
+		D.enqueue("I");
 		adjLists.add(D);
 		UnboundedQueueInterface<String> E = new LinkedUnbndQueue<String>();
-		E.enqueue("E");
-		E.enqueue("F");
+		E.setInfo("E");
+		E.enqueue("C");
+		E.enqueue("J");
 		adjLists.add(E);
 		UnboundedQueueInterface<String> F = new LinkedUnbndQueue<String>();
-		F.enqueue("F");
+		F.setInfo("F");
+		F.enqueue("G");
 		adjLists.add(F);
 		UnboundedQueueInterface<String> G = new LinkedUnbndQueue<String>();
-		G.enqueue("G");
-		G.enqueue("H");
+		G.setInfo("G");
+		G.enqueue("I");
 		adjLists.add(G);
 		UnboundedQueueInterface<String> H = new LinkedUnbndQueue<String>();
-		H.enqueue("H");
+		H.setInfo("H");
 		adjLists.add(H);
-		System.out.println(traverse(adjLists, "A", new ArrayList<String>()));
+		UnboundedQueueInterface<String> I = new LinkedUnbndQueue<String>();
+		I.setInfo("I");
+		adjLists.add(I);
+		UnboundedQueueInterface<String> J = new LinkedUnbndQueue<String>();
+		J.setInfo("J");
+		adjLists.add(J);
+		String fOrder = traverse(adjLists, "A", new ArrayList<String>(), "A");
+		System.out.println(new StringBuilder(fOrder).reverse().toString());
 	}
 
 }
