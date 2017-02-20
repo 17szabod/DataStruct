@@ -1,0 +1,80 @@
+import java.util.ArrayList;
+
+import queues.*;
+
+public class DFSofDAG {
+	public static <T> String traverse(ArrayList<UnboundedQueueInterface<T>> adjLists, T currentNode, ArrayList<T> visited) {
+		if (adjLists.isEmpty()) return "";
+		UnboundedQueueInterface<T> currList = new LinkedUnbndQueue<T>();
+		for (UnboundedQueueInterface<T> list : adjLists) {
+			if (((LinkedUnbndQueue<T>) list).peek().equals(currentNode)) {
+				currList = list;
+				break;
+			}
+		}
+		if (currList.isEmpty()) {
+			return "";
+		}
+		T currNode = currentNode;
+		try {
+			currNode = currList.peek();
+		}
+		catch (QueueUnderflowException ex) {
+			return "";
+		}
+		while (visited.contains(currNode)) {
+			try {
+				currNode = currList.dequeue();
+			}
+			catch (QueueUnderflowException e) {
+				return "";
+			}
+		}
+		visited.add(currentNode);
+		currNode = currList.dequeue();
+		while (!currList.isEmpty())
+			return traverse(adjLists, currNode, visited) + currNode;
+		adjLists.remove(currList);
+		return traverse(adjLists, currNode, visited) + currNode;
+	}
+	
+	public static void main(String[] args) {
+		ArrayList<UnboundedQueueInterface<String>> adjLists = new ArrayList<UnboundedQueueInterface<String>>();
+		UnboundedQueueInterface<String> A = new LinkedUnbndQueue<String>();
+		A.enqueue("A");
+		A.enqueue("B");
+		A.enqueue("E");
+		A.enqueue("F");
+		adjLists.add(A);
+		UnboundedQueueInterface<String> B = new LinkedUnbndQueue<String>();
+		B.enqueue("B");
+		B.enqueue("F");
+		B.enqueue("G");
+		adjLists.add(B);
+		UnboundedQueueInterface<String> C = new LinkedUnbndQueue<String>();
+		C.enqueue("C");
+		C.enqueue("D");
+		C.enqueue("G");
+		adjLists.add(C);
+		UnboundedQueueInterface<String> D = new LinkedUnbndQueue<String>();
+		D.enqueue("D");
+		D.enqueue("H");
+		adjLists.add(D);
+		UnboundedQueueInterface<String> E = new LinkedUnbndQueue<String>();
+		E.enqueue("E");
+		E.enqueue("F");
+		adjLists.add(E);
+		UnboundedQueueInterface<String> F = new LinkedUnbndQueue<String>();
+		F.enqueue("F");
+		adjLists.add(F);
+		UnboundedQueueInterface<String> G = new LinkedUnbndQueue<String>();
+		G.enqueue("G");
+		G.enqueue("H");
+		adjLists.add(G);
+		UnboundedQueueInterface<String> H = new LinkedUnbndQueue<String>();
+		H.enqueue("H");
+		adjLists.add(H);
+		System.out.println(traverse(adjLists, "A", new ArrayList<String>()));
+	}
+
+}
