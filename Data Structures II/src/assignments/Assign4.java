@@ -21,10 +21,10 @@ public class Assign4 {
 				maxValue = copy[x];
 			}
 		}
-		return maxValue + " " + maxConsec;
+		return maxValue + " " + (maxConsec + 1);
 	}
-	
-	public static String bruteForceMode(int[] arr) {
+	// This is another mode algorithm, neither brute force nor transform and conquer
+	public static String idekWhatThisIsMode(int[] arr) {
 		int[] modes = new int[arr.length];
 		for (int i : arr) {
 			modes[i] = modes[i] + 1;
@@ -39,10 +39,29 @@ public class Assign4 {
 		}
 		return maxIndex + " " + (max - 1);
 	}
+	
+	public static String bruteForceMode(int[] arr) {
+		int currCount = 0;
+		int maxCount = -1;
+		int mode = -1;
+		for (int i : arr) {
+			currCount = 0;
+			for (int x = 0; x < arr.length; x++) {
+				if (arr[x] == i) {
+					currCount++;
+				}
+			}
+			if (currCount > maxCount) {
+				maxCount = currCount;
+				mode = i;
+			}
+		}
+		return mode + " " + maxCount;
+	}
 
 	public static void main(String[] args) {
-		int[] in = new int[1000];
-		for (int x = 0; x < 1000; x++) {
+		int[] in = new int[100];
+		for (int x = 0; x < 100; x++) {
 			in[x] = (int) (Math.random() * 100);
 			System.out.print(in[x] + " ");
 		}
