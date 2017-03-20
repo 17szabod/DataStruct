@@ -1,6 +1,5 @@
 package assignments;
 
-
 public class HeapSort {
 	/**
 	 * Sorts array arr in descending order
@@ -99,10 +98,11 @@ public class HeapSort {
 		return arr;
 	}
 	public static void main(String[] args) {
-		//int[] arr = {10, 9, 4, 3, 7, 1, 5, 2, 8, 6, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21};
-		int[] arr = new int[10000];
-		for (int x = 0; x < 10000; x++) {
-			arr[x] = (int) (Math.random() * 100000);
+		//int[] arr = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+		int n = 10;
+		int[] arr = new int[n];
+		for (int x = 0; x < n; x++) {
+			arr[x] = (int) (Math.random() * 100);
 		}
 		System.out.println(sortHeap(arr));
 	}
