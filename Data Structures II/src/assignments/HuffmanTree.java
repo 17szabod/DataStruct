@@ -1,15 +1,25 @@
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.PriorityQueue;
+import java.util.Scanner;
 
 public class HuffmanTree {
 	private static PriorityQueue<HuffNode> queue;
 	private static HuffNode root;
 	public static void main(String[] args) {
 		queue = new PriorityQueue<HuffNode>();
-		queue.add(new HuffNode("A", .35));
-		queue.add(new HuffNode("B", .1));
-		queue.add(new HuffNode("C", .2));
-		queue.add(new HuffNode("D", .2));
-		queue.add(new HuffNode("_", .15));
+		Scanner scan = null;
+		try {
+			scan = new Scanner(new FileReader("H:\\New Attempt\\DataStruct\\Data Structures\\Data Structures II\\src\\assignments\\Huffman.txt"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		while (scan.hasNextLine()) {
+			String symbol = scan.next();
+			double freq = scan.nextDouble();
+			queue.add(new HuffNode(symbol, freq));
+		}
 		decode();
 	}
 	private static void decode() {
